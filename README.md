@@ -21,16 +21,20 @@ docker compose build --pull
 docker compose up -d
 ```
 
-Example usage:
+## Notes
 
+Caches Ubuntu packages for x64, Arm, etc.
+
+Packages are saved to: `/srv/docker/apt-cacher-ng`
+
+To add the cacher, edit `/etc/apt/apt.conf.d/01proxy`
+
+```shell
+Acquire::HTTP::Proxy "http://192.168.1.226:3142";
+Acquire::HTTPS::Proxy "false";
 ```
-docker run -d \
-  --name apt-cacher-ng \
-  -p 3142:3142 \
-  -e TZ="US/Eastern" \
-  -v /data/apt-cacher-ng:/var/cache/apt-cacher-ng \
-  mbentley/apt-cacher-ng
-```
+
+Visit the web-ui: `http://192.168.1.226:3142/acng-report.html`
 
 This image runs `apt-cacher-ng`, `cron`, and `rsyslogd` to ensure that apt-cacher-ng functions properly with scheduled jobs and appropriate logging.
 
