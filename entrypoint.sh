@@ -2,7 +2,7 @@
 
 # set TZ
 export TZ
-TZ="${TZ:-US/Eastern}"
+TZ="${TZ:-America/Denver}"
 
 # setting permissions on /var/cache/apt-cacher-ng, /var/log/apt-cacher-ng, and /var/run/apt-cacher-ng
 echo -n "Setting permissions on /var/cache/apt-cacher-ng, /var/log/apt-cacher-ng, and /var/run/apt-cacher-ng..."

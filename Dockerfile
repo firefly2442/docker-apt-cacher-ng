@@ -1,9 +1,9 @@
-# rebased/repackaged base image that only updates existing packages
-FROM mbentley/debian:bullseye
-LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
+# https://hub.docker.com/_/debian
+FROM debian:latest
 
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -y apt-cacher-ng cron logrotate s6 rsyslog &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-cacher-ng cron logrotate s6 rsyslog tzdata nano curl &&\
+  apt-get -y upgrade &&\
   chown -R apt-cacher-ng:apt-cacher-ng /var/run/apt-cacher-ng &&\
   echo "PassThroughPattern: .*" >> /etc/apt-cacher-ng/acng.conf &&\
   sed -i "s/# ReuseConnections: 1/ReuseConnections: 1/g" /etc/apt-cacher-ng/acng.conf &&\
@@ -15,9 +15,6 @@ COPY cache.png /usr/share/doc/apt-cacher-ng/cache.png
 
 COPY s6 /etc/s6
 COPY entrypoint.sh /entrypoint.sh
-
-VOLUME ["/var/cache/apt-cacher-ng"]
-EXPOSE 3142
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["s6-svscan","/etc/s6"]
