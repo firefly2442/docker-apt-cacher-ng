@@ -44,6 +44,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
+          ignore-unfixed: true
           image-ref: 'ghcr.io/firefly2442/docker-apt-cacher-ng:latest'
           format: 'sarif'
           output: 'trivy-results.sarif'
